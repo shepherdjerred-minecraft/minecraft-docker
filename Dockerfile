@@ -25,14 +25,14 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -ms /bin/bash minecraft
 USER minecraft
 RUN mkdir /home/minecraft/server
-WORKDIR /home/minecraft/server
+WORKDIR /home/minecraft
 
 COPY --from=build --chown=minecraft:minecraft /home/build_tools/spigot* .
 RUN mv spigot* spigot.jar
 
-COPY entrypoint.sh /usr/local/bin
+WORKDIR /home/minecraft/server
 ENTRYPOINT ["java"]
-CMD ["-Dcom.mojang.eula.agree=true", "-jar", "spigot.jar"]
+CMD ["-Dcom.mojang.eula.agree=true", "-jar", "../spigot.jar"]
 
 VOLUME ["/home/minecraft/server"]
 EXPOSE 25565/tcp

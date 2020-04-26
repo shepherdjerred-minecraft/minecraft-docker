@@ -33,7 +33,7 @@ id=$(docker create shepherdjerred/spigot:latest)
 docker cp $id:/home/minecraft/server/spigot.jar /server/data
 docker rm -v $id
 
-tmux new -s -d minecraft
-tmux send-keys "sudo docker run -p 25565:25565/tcp -p 25565:25565/udp --mount type=/server/data,source=minecraft,target=/home/minecraft/server shepherdjerred/spigot:latest"
+tmux new -d -s minecraft
+tmux send-keys "sudo docker run -p 25565:25565/tcp -p 25565:25565/udp --mount type=bind,source=/server/data,target=/home/minecraft/server shepherdjerred/spigot:latest"
 tmux send-keys Enter
-tmux attach minecraft
+tmux attach -t minecraft

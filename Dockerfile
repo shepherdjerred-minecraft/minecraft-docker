@@ -37,4 +37,5 @@ CMD ["-Dcom.mojang.eula.agree=true", "-jar", "../spigot.jar"]
 VOLUME ["/home/minecraft/server"]
 EXPOSE 25565/tcp
 EXPOSE 25565/udp
+EXPOSE 8123/tcp
 

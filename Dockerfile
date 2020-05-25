@@ -10,9 +10,9 @@ RUN useradd -ms /bin/bash build_tools
 USER build_tools
 
 WORKDIR /home/build_tools
-ADD --chown=build_tools:build_tools https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar BuildTools.jar skipcache
-
 ARG CACHEBUST=1
+ADD --chown=build_tools:build_tools https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar BuildTools.jar
+
 ARG MINECRAFT_VERSION=latest
 RUN java -jar BuildTools.jar --rev $MINECRAFT_VERSION
 

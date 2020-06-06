@@ -7,18 +7,21 @@ Requires=docker.service
 User=root
 TimeoutStartSec=0
 Restart=always
+RestartSec=10
 ExecStartPre=-/usr/bin/docker exec %n stop
 ExecStartPre=-/usr/bin/docker rm %n
-ExecStartPre=/usr/bin/docker pull shepherdjerred/spigot:latest
+# ExecStartPre=/usr/bin/docker pull shepherdjerred/spigot:latest
 ExecStart=/usr/bin/docker run \
+  --rm \
+  --name minecraft \
   -p 25565:25565/tcp \
   -p 25565:25565/udp \
   -p 8123:8123/tcp \
   --mount type=bind,source=/server/data,target=/home/minecraft/server \
   -itd \
   shepherdjerred/spigot:latest \
-  -jar ../spigot.jar \
-  -Xmx4G
+  -Xmx4G \
+  -jar "../spigot.jar"
 
 [Install]
 WantedBy=default.target

@@ -21,7 +21,7 @@ deploy:
     script: >-
       echo "$GITHUB_PASSWORD" | docker login docker.pkg.github.com -u shepherdjerred --password-stdin
       && docker tag shepherdjerred/spigot:latest docker.pkg.github.com/shepherdjerred-minecraft/spigot-docker/shepherdjerred/spigot:latest
-      && docker push docker.pkg.github.com/shepherdjerred-minecraft/spigot-docker/shepherdjerred/spigot:latest
+      && docker push docker.pkg.github.com/shepherdjerred-minecraft/spigot-docker/spigot:latest
     on:
       branch: master
 notifications:

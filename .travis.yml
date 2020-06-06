@@ -1,8 +1,6 @@
 language: generic
-
 services:
   - docker
-
 cache:
   directories:
   - docker_images
@@ -10,14 +8,12 @@ before_install:
 - docker load -i docker_images/images.tar || true
 before_cache:
 - docker save -o docker_images/images.tar $(docker images -a -q)
-
 script:
   - docker build -t shepherdjerred/spigot:latest .
-
 deploy:
   - provider: script
     script: >-
-      echo "$DOCKER_PASSWORD" | docker login -u shepherdjered --password-stdin
+      echo "$DOCKER_PASSWORD" | docker login -u shepherdjerred --password-stdin
       && docker push
     on:
       branch: master
@@ -29,3 +25,5 @@ deploy:
       && docker push
     on:
       branch: master
+notifications:
+  email: false

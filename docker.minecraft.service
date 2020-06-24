@@ -1,0 +1,27 @@
+[Unit]
+Description=Docker Minecraft service
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=root
+TimeoutStartSec=0
+Restart=always
+RestartSec=10
+ExecStartPre=-/usr/bin/docker exec %n stop
+ExecStartPre=-/usr/bin/docker rm %n
+# ExecStartPre=/usr/bin/docker pull shepherdjerred/minecraft:latest
+ExecStart=/usr/bin/docker run \
+  --rm \
+  --name minecraft \
+  -p 25565:25565/tcp \
+  -p 25565:25565/udp \
+  -p 8123:8123/tcp \
+  --mount type=bind,source=/server/data,target=/home/minecraft/server \
+  -itd \
+  shepherdjerred/minecraft:latest \
+  -Xmx4G \
+  -jar "../minecraft.jar"
+
+[Install]
+WantedBy=default.target

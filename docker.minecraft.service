@@ -5,19 +5,21 @@ Requires=docker.service
 
 [Service]
 User=root
+StandardInput=tty-force
 TimeoutStartSec=0
 Restart=always
 RestartSec=10
-ExecStop=/usr/bin/docker stop minecraft
 ExecStart=/usr/bin/docker run \
-  --name minecraft \
+  --rm \
+  --name %n \
   -p 25565:25565/tcp \
   -p 25565:25565/udp \
   --mount type=bind,source=/server/data,target=/home/minecraft/server \
-  -itd \
+  -it \
   shepherdjerred/minecraft:latest \
   -Xmx4G \
   -jar "../minecraft.jar"
+ExecStop=/usr/bin/docker stop %n
 
 [Install]
 WantedBy=default.target

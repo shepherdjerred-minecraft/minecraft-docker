@@ -1,0 +1,28 @@
+language: generic
+services:
+  - docker
+cache:
+  directories:
+  - docker_images
+before_install:
+- docker load -i docker_images/images.tar || true
+before_cache:
+- docker save -o docker_images/images.tar $(docker images -a -q)
+script:
+  - docker build -t shepherdjerred/minecraft:latest .
+deploy:
+  - provider: script
+    script: >-
+      echo "$DOCKER_PASSWORD" | docker login -u shepherdjerred --password-stdin
+      && docker push shepherdjerred/minecraft:latest
+    on:
+      branch: master
+  - provider: script
+    script: >-
+      echo "$GITHUB_PASSWORD" | docker login docker.pkg.github.com -u shepherdjerred --password-stdin
+      && docker tag shepherdjerred/minecraft:latest docker.pkg.github.com/shepherdjerred-minecraft/minecraft-docker/minecraft:latest
+      && docker push docker.pkg.github.com/shepherdjerred-minecraft/minecraft-docker/minecraft:latest
+    on:
+      branch: master
+notifications:
+  email: false

@@ -1,5 +1,5 @@
 [Unit]
-Description=Docker Minecraft service
+Description=Docker Spigot service
 After=docker.service
 Requires=docker.service
 
@@ -13,7 +13,7 @@ ExecStartPre=-/usr/bin/docker rm %n
 # ExecStartPre=/usr/bin/docker pull shepherdjerred/spigot:latest
 ExecStart=/usr/bin/docker run \
   --rm \
-  --name minecraft \
+  --name spigot \
   -p 25565:25565/tcp \
   -p 25565:25565/udp \
   -p 8123:8123/tcp \

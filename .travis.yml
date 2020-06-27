@@ -13,13 +13,13 @@ script:
 deploy:
   - provider: script
     script: >-
-      echo "$DOCKER_PASSWORD" | docker login -u shepherdjerred --password-stdin
+      echo "$DOCKER_ACCESS_TOKEN" | docker login -u shepherdjerred --password-stdin
       && docker push shepherdjerred/spigot:latest
     on:
       branch: master
   - provider: script
     script: >-
-      echo "$GITHUB_PASSWORD" | docker login docker.pkg.github.com -u shepherdjerred --password-stdin
+      echo "$GITHUB_ACCESS_TOKEN" | docker login docker.pkg.github.com -u shepherdjerred --password-stdin
       && docker tag shepherdjerred/spigot:latest docker.pkg.github.com/shepherdjerred-minecraft/spigot-docker/spigot:latest
       && docker push docker.pkg.github.com/shepherdjerred-minecraft/spigot-docker/spigot:latest
     on:

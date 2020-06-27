@@ -1,5 +1,5 @@
 # spigot-docker
-[![Build Status](https://travis-ci.org/shepherdjerred-minecraft/spigot-docker.svg?branch=master)](https://travis-ci.org/shepherdjerred-minecraft/spigot-docker)
+[![Build Status](https://travis-ci.com/shepherdjerred-minecraft/spigot-docker.svg?branch=master)](https://travis-ci.com/shepherdjerred-minecraft/spigot-docker)
 
 ## Features
 * No need to worry about spigot jarfiles -- just mount a server data directory and go

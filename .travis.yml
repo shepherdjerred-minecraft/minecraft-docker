@@ -1,4 +1,8 @@
 language: generic
+env:
+  - MINECRAFT_VERSION=latest
+  - MINECRAFT_VERSION=1.16.1
+  - MINECRAFT_VERSION=1.15.2
 services:
   - docker
 cache:
@@ -9,19 +13,19 @@ before_install:
 before_cache:
 - docker save -o docker_images/images.tar $(docker images -a -q)
 script:
-  - docker build -t shepherdjerred/spigot:latest .
+  - docker build -t shepherdjerred/spigot:$(echo $MINECRAFT_VERSION) --build_arg MINECRAFT_VERSION=$(echo $MINECRAFT_VERSION) .
 deploy:
   - provider: script
     script: >-
       echo "$DOCKER_ACCESS_TOKEN" | docker login -u shepherdjerred --password-stdin
-      && docker push shepherdjerred/spigot:latest
+      && docker push shepherdjerred/spigot:$(echo $MINECRAFT_VERSION)
     on:
       branch: master
   - provider: script
     script: >-
       echo "$GITHUB_ACCESS_TOKEN" | docker login docker.pkg.github.com -u shepherdjerred --password-stdin
-      && docker tag shepherdjerred/spigot:latest docker.pkg.github.com/shepherdjerred-minecraft/spigot-docker/spigot:latest
-      && docker push docker.pkg.github.com/shepherdjerred-minecraft/spigot-docker/spigot:latest
+      && docker tag shepherdjerred/spigot:$(echo $MINECRAFT_VERSION) docker.pkg.github.com/shepherdjerred-minecraft/spigot-docker/spigot:$(echo $MINECRAFT_VERSION)
+      && docker push docker.pkg.github.com/shepherdjerred-minecraft/spigot-docker/spigot:$(echo $MINECRAFT_VERSION)
     on:
       branch: master
 notifications:

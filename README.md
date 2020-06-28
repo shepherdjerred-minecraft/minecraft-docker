@@ -8,3 +8,4 @@
   * This allow for effective caching. New commits are always picked up, but cached builds are used if no new commits are available.
   * This is an effective strategy for the latest Minecraft version, but is less useful if you want to use an older Minecraft version since rebuilds will trigger when unneeded.
 * Uses the latest JDK for building and running the spigot jarfile and the latest stable slim debian OS image
+* Travis CI setup to build and deploy changes daily

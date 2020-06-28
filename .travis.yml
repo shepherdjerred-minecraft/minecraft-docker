@@ -2,7 +2,9 @@ language: generic
 services:
   - docker
 env:
+  - MINECRAFT_VERSION=latest
   - MINECRAFT_VERSION=1.16.1
+  - MINECRAFT_VERSION=1.15.2
 cache:
   directories:
   - docker_images

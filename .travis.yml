@@ -13,7 +13,7 @@ before_install:
 before_cache:
 - docker save -o docker_images/images.tar $(docker images -a -q)
 script:
-  - docker build -t shepherdjerred/spigot:$(echo $MINECRAFT_VERSION) --build_arg MINECRAFT_VERSION=$(echo $MINECRAFT_VERSION) .
+  - docker build -t shepherdjerred/spigot:$(echo $MINECRAFT_VERSION) --build-arg MINECRAFT_VERSION=$(echo $MINECRAFT_VERSION) .
 deploy:
   - provider: script
     script: >-

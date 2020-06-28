@@ -1,6 +1,8 @@
 language: generic
 services:
   - docker
+env:
+  - MINECRAFT_VERSION=1.16.1
 cache:
   directories:
   - docker_images
@@ -9,19 +11,19 @@ before_install:
 before_cache:
 - docker save -o docker_images/images.tar $(docker images -a -q)
 script:
-  - docker build -t shepherdjerred/minecraft:latest .
+  - docker build -t shepherdjerred/minecraft:$(echo MINECRAFT_VERSION) .
 deploy:
   - provider: script
     script: >-
       echo "$DOCKER_ACCESS_TOKEN" | docker login -u shepherdjerred --password-stdin
-      && docker push shepherdjerred/minecraft:latest
+      && docker push shepherdjerred/minecraft:$(echo MINECRAFT_VERSION)
     on:
       branch: master
   - provider: script
     script: >-
       echo "$GITHUB_ACCESS_TOKEN" | docker login docker.pkg.github.com -u shepherdjerred --password-stdin
-      && docker tag shepherdjerred/minecraft:latest docker.pkg.github.com/shepherdjerred-minecraft/minecraft-docker/minecraft:latest
-      && docker push docker.pkg.github.com/shepherdjerred-minecraft/minecraft-docker/minecraft:latest
+      && docker tag shepherdjerred/minecraft:$(echo MINECRAFT_VERSION) docker.pkg.github.com/shepherdjerred-minecraft/minecraft-docker/minecraft:$(echo MINECRAFT_VERSION)
+      && docker push docker.pkg.github.com/shepherdjerred-minecraft/minecraft-docker/minecraft:$(echo MINECRAFT_VERSION)
     on:
       branch: master
 notifications:

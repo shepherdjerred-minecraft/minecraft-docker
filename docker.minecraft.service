@@ -4,7 +4,7 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-User=root
+User=ec2-user
 StandardInput=tty-force
 TimeoutStartSec=0
 Restart=always

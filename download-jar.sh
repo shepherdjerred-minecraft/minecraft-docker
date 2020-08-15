@@ -4,7 +4,7 @@ version="$1"
 
 if [ "$version" = "latest" ]
   then
-    version="1.16.1"
+    version="1.16.2"
 fi
 
 if [ "$version" = "1.16.2" ]

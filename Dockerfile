@@ -1,4 +1,4 @@
-FROM openjdk:jdk-slim AS build
+FROM openjdk:11-jdk-slim AS build
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \

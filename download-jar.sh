@@ -4,10 +4,13 @@ version="$1"
 
 if [ "$version" = "latest" ]
   then
-    version="1.16.2"
+    version="1.16.3"
 fi
 
-if [ "$version" = "1.16.2" ]
+if [ "$version" = "1.16.3" ]
+  then
+    url="https://launcher.mojang.com/v1/objects/f02f4473dbf152c23d7d484952121db0b36698cb/server.jar"
+elif [ "$version" = "1.16.2" ]
   then
     url="https://launcher.mojang.com/v1/objects/c5f6fb23c3876461d46ec380421e42b289789530/server.jar"
 elif [ "$version" = "1.16.1" ]

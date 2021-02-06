@@ -12,7 +12,7 @@ versions["1.16.5"]="https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66
 
 if [ "$version" = "latest" ]
   then
-    version="1.16.4"
+    version="1.16.5"
 fi
 
 url="${versions[${version}]}"

@@ -1,5 +1,5 @@
 # spigot-docker
-[![CI/CD](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/docker-publish/badge.svg)
+[![CI/CD](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/docker-publish.yml/badge.svg)
 ](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/docker-publish.yml)
 
 ## Features

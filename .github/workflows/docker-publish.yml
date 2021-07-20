@@ -51,3 +51,5 @@ jobs:
             shepherdjerred/spigot:${{ matrix.minecraft_version }}
             ghcr.io/shepherdjerred-minecraft/spigot:${{ matrix.minecraft_version }}
           build-args: ${{ strategy.matrix.minecraft_version }}
+          cache-from: type=registry,ref=shepherdjerred-minecraft/spigot:${{ matrix.minecraft_version }}
+          cache-to: type=inline

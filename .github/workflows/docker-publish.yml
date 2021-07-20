@@ -41,5 +41,5 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: shepherdjerred/spigot:${{ strategy.matrix.minecraft_version }}
+          tags: shepherdjerred/spigot:${{ matrix.minecraft_version }}
           build-args: ${{ strategy.matrix.minecraft_version }}

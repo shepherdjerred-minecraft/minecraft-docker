@@ -22,7 +22,7 @@ ARG MINECRAFT_VERSION=latest
 RUN java -jar BuildTools.jar --rev $MINECRAFT_VERSION
 
 # Container for running Spigot
-FROM openjdk:jdk-slim
+FROM openjdk:16-jdk-slim
 
 RUN useradd -ms /bin/bash minecraft
 USER minecraft

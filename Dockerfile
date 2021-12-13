@@ -1,4 +1,4 @@
-FROM openjdk:16-jdk-slim AS build
+FROM openjdk:17-jdk-slim AS build
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
@@ -22,7 +22,7 @@ ARG MINECRAFT_VERSION=latest
 RUN java -jar BuildTools.jar --rev $MINECRAFT_VERSION
 
 # Container for running Spigot
-FROM openjdk:16-jdk-slim
+FROM openjdk:17-jdk-slim
 
 RUN useradd -ms /bin/bash minecraft
 USER minecraft

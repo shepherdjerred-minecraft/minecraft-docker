@@ -19,6 +19,7 @@ jobs:
       matrix:
         minecraft_version:
         - latest
+        - 1.19
         - 1.18.1
         - 1.18
     steps:

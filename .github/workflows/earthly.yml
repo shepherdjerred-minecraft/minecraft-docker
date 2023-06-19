@@ -1,6 +1,8 @@
 name: Earthly CI/CD
 
 on:
+  schedule:
+    - cron: "38 20 * * *"
   push:
     branches: [main]
 

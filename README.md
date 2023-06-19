@@ -9,7 +9,7 @@ A Dockerfile to build and run both Spigot, Paper and Vanilla Minecraft.
 
 ## Features
 
-* Uses the latest Amazon Coretto for the current Java LTS (currently Java 17)
+* Uses the latest [Amazon Coretto](https://aws.amazon.com/corretto/) for the [latest Java LTS](https://endoflife.date/java) (currently Java 17)
 * Supports the latest versions of Spigot, Paper, and Vanilla Minecraft
 * No need to worry about server jarfiles -- just mount a server data directory and go
 * Always uses the latest build tools for Spigot and Paper
@@ -29,10 +29,14 @@ Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly +images
 
 ### Adding a New Minecraft Version
 
-New versions are easy.
+New versions is easy.
 
 1. Add the version to the [Earthfile](https://github.com/shepherdjerred-minecraft/minecraft-docker/blob/5d761d32cc3b333db4a1f4b2be07d1fd48d29341/Earthfile#L78)
 2. Add the URL to the vanilla .jar in [`vanilla.sh`](https://github.com/shepherdjerred-minecraft/minecraft-docker/blob/5d761d32cc3b333db4a1f4b2be07d1fd48d29341/vanilla.sh#L6)
+
+### Updating Java
+
+1. Update the [base image version](https://github.com/shepherdjerred-minecraft/minecraft-docker/blob/c16485044765aede996a93483ad8d7739651c206/Earthfile#L2)
 
 ## Usage
 

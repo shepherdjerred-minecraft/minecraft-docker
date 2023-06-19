@@ -12,6 +12,10 @@ RUN ./paper.sh
 # Container for running Paper
 FROM openjdk:17-jdk-slim
 
+RUN apt-get update && apt-get install -y \
+  webp
+  && rm -rf /var/lib/apt/lists/*
+
 RUN useradd -ms /bin/bash minecraft
 USER minecraft
 RUN mkdir /home/minecraft/server

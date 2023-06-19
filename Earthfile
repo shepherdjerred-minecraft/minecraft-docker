@@ -49,6 +49,7 @@ image.base:
   EXPOSE 25565/tcp
   EXPOSE 25565/udp
   CMD ["-Dcom.mojang.eula.agree=true", "-jar", "../server.jar"]
+  HEALTHCHECK --start-period=1m --interval=5s --retries=24 CMD nc -zv 127.0.0.1 25565
 
 image.spigot:
   ARG --required version
@@ -74,10 +75,52 @@ image.vanilla:
   SAVE IMAGE shepherdjerred-minecraft/vanilla:$version
   SAVE IMAGE --push ghcr.io/shepherdjerred-minecraft/vanilla:$version
 
-images:
+ci.spigot:
+  ARG --required version
+  WAIT
+    BUILD +test.spigot --version=$version
+  END
+  BUILD +image.spigot --version=$version
+
+ci.paper:
+  ARG --required version
+  WAIT
+    BUILD +test.paper --version=$version
+  END
+  BUILD +image.paper --version=$version
+
+ci.vanilla:
+  ARG --required version
+  WAIT
+    BUILD +test.vanilla --version=$version
+  END
+  BUILD +image.vanilla --version=$version
+
+test.spigot:
+  ARG --required version
+  FROM earthly/dind:alpine
+  WITH DOCKER --load=spigot=(+image.spigot --version=$version)
+    RUN docker run spigot -Xmx512M -jar "../server.jar"
+  END
+
+test.vanilla:
+  ARG --required version
+  FROM earthly/dind:alpine
+  WITH DOCKER --load=vanilla=(+image.vanilla --version=$version)
+    RUN docker run vanilla -Xmx512M -jar "../server.jar"
+  END
+
+test.paper:
+  ARG --required version
+  FROM earthly/dind:alpine
+  WITH DOCKER --load=paper=(+image.paper --version=$version)
+    RUN docker run paper -Xmx512M -jar "../server.jar"
+  END
+
+ci:
   ARG versions=latest 1.20.1
   FOR version IN $versions
-    BUILD +image.paper --version=$version
-    BUILD +image.spigot --version=$version
-    BUILD +image.vanilla --version=$version
+    BUILD +ci.paper --version=$version
+    BUILD +ci.spigot --version=$version
+    BUILD +ci.vanilla --version=$version
   END

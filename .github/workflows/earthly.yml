@@ -26,5 +26,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           version: "latest"
-      - name: Build and push images
-        run: earthly --push +images
+      - name: Build, test, and push images
+        run: earthly --alow-privileged --use-inline-cache --save-inline-cache --push +ci

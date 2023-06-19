@@ -7,6 +7,16 @@
 
 A Dockerfile to build and run both Spigot, Paper and Vanilla Minecraft.
 
+You can quickly try it out with this command:
+
+```bash
+docker run \
+  --rm \
+  -p 25565 \
+  -it \
+  ghcr.io/shepherdjerred-minecraft/paper:latest
+```
+
 ## Features
 
 * Uses the latest [Amazon Coretto](https://aws.amazon.com/corretto/) for the [latest Java LTS](https://endoflife.date/java) (currently Java 17)
@@ -23,9 +33,16 @@ Pre-built images are located here:
 * [Spigot](https://github.com/shepherdjerred-minecraft/spigot-docker/pkgs/container/spigot)
 * [Paper](https://github.com/shepherdjerred-minecraft/spigot-docker/pkgs/container/paper)
 
+### Tags
+
+The following tags are available for these images:
+
+* latest
+* 1.20.1
+
 ## Building
 
-Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly +images` in this directory.
+Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly +ci` in this directory.
 
 ### Adding a New Minecraft Version
 
@@ -59,8 +76,8 @@ Note that the server directory _does not_ have a server jarfile.
 services:
   minecraft:
     # Swap paper for `spigot` or `minecraft`
-    # Swap `1.20` with `latest` or another version of Minecraft
-    image: ghcr.io/shepherdjerred-minecraft/paper:1.20
+    # Swap `1.20.1` with `latest` or another version of Minecraft
+    image: ghcr.io/shepherdjerred-minecraft/paper:1.20.1
     tty: true
     stdin_open: true
     volumes:
@@ -73,7 +90,7 @@ services:
       - 25565:25565/udp
     # Change how much memory you're giving Java if needed
     # Do NOT change `../server.jar`
-    command: -Xmx1G -jar "../server.jar"
+    command: -Xmx1G -Dcom.mojang.eula.agree=true -jar "../server.jar"
     restart: unless-stopped
 ```
 
@@ -82,7 +99,7 @@ services:
 ```bash
 docker run \
   --rm \
-  --name %n \
+  --name minecraft \
   # Change the first 25565 to another port if needed
   -p 25565:25565/tcp \
   -p 25565:25565/udp \
@@ -91,10 +108,11 @@ docker run \
   --mount type=bind,source=/path/to/server/files,target=/home/minecraft/server \
   -it \
   # Swap paper for `spigot` or `minecraft`
-  # Swap `1.20` with `latest` or another version of Minecraft
-  ghcr.io/shepherdjerred-minecraft/paper:1.20 \
+  # Swap `1.20.1` with `latest` or another version of Minecraft
+  ghcr.io/shepherdjerred-minecraft/paper:1.20.1 \
   # Change how much memory you're giving Java if needed
   -Xmx1G \
+  -Dcom.mojang.eula.agree=true \
   # Do NOT change `../server.jar`
   -jar "../server.jar"
 ```

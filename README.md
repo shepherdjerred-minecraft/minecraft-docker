@@ -3,6 +3,8 @@
 [![CI/CD](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/earthly.yml/badge.svg)
 ](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/earthly.yml)
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/shepherdjerred-minecraft/minecraft-docker?quickstart=1)
+
 A Dockerfile to build and run both Spigot and Paper.
 
 ## Features
@@ -23,7 +25,7 @@ Pre-built images are located here:
 
 ## Building
 
-Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly +build` in this directory.
+Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly +images` in this directory.
 
 ## Usage
 

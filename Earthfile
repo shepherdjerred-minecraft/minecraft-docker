@@ -8,34 +8,39 @@ build.base:
 build.paper:
   ARG --required version
   FROM +build.base
-  COPY --chmod=0755 paper.sh .
+  COPY paper.sh .
   RUN PAPER_BUILD="latest" MC_VERSION=$version ./paper.sh
-  RUN mv paper* server.jar
+  RUN mv paper*.jar server.jar
   SAVE ARTIFACT server.jar
+
+build.spigot.repos:
+  FROM +build.base
+  RUN git clone https://hub.spigotmc.org/stash/scm/spigot/spigot.git Spigot
+  RUN git clone https://hub.spigotmc.org/stash/scm/spigot/craftbukkit.git CraftBukkit
+  RUN git clone https://hub.spigotmc.org/stash/scm/spigot/bukkit.git Bukkit
+  RUN git clone https://hub.spigotmc.org/stash/scm/spigot/builddata.git BuildData
+  SAVE ARTIFACT *
 
 build.spigot:
   ARG --required version
   FROM +build.base
-  RUN wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+  COPY +build.spigot.repos/ .
+  RUN wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar
   RUN java -jar BuildTools.jar --rev $version
-  RUN mv spigot* server.jar
+  RUN mv spigot*.jar server.jar
   SAVE ARTIFACT server.jar
 
 build.vanilla:
   ARG --required version
   FROM +build.base
-  COPY download-jar.sh .
-  ARG MINECRAFT_VERSION=latest
-  RUN ./download-jar.sh $MINECRAFT_VERSION
+  COPY vanilla.sh .
+  RUN ./vanilla.sh $version
   SAVE ARTIFACT server.jar
 
 image.base:
   ARG --required version
-
-  # for dynmap
-  RUN yum update -y && yum install -y webp
-
-  RUN useradd -ms /bin/bash minecraft
+  RUN yum update -y && yum install -y libwebp /usr/sbin/adduser
+  RUN adduser -ms /bin/bash minecraft
   USER minecraft
   RUN mkdir /home/minecraft/server
   WORKDIR /home/minecraft
@@ -50,6 +55,7 @@ image.spigot:
   FROM +image.base
   COPY --chown=minecraft:minecraft +build.spigot/server.jar .
   WORKDIR /home/minecraft/server
+  SAVE IMAGE shepherdjerred-minecraft/spigot:$version
   SAVE IMAGE --push ghcr.io/shepherdjerred-minecraft/spigot:$version
 
 image.paper:
@@ -57,6 +63,7 @@ image.paper:
   FROM +image.base
   COPY --chown=minecraft:minecraft +build.paper/server.jar .
   WORKDIR /home/minecraft/server
+  SAVE IMAGE shepherdjerred-minecraft/paper:$version
   SAVE IMAGE --push ghcr.io/shepherdjerred-minecraft/paper:$version
 
 image.vanilla:
@@ -64,6 +71,7 @@ image.vanilla:
   FROM +image.base
   COPY --chown=minecraft:minecraft +build.vanilla/server.jar .
   WORKDIR /home/minecraft/server
+  SAVE IMAGE shepherdjerred-minecraft/vanilla:$version
   SAVE IMAGE --push ghcr.io/shepherdjerred-minecraft/vanilla:$version
 
 images:

@@ -1,49 +1,87 @@
 # Spigot Docker
-[![CI/CD](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/docker-publish.yml/badge.svg)
-](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/docker-publish.yml)
 
-A Dockerfile to build both Spigot and Paper
+[![CI/CD](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/earthly.yml/badge.svg)
+](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/earthly.yml)
+
+A Dockerfile to build and run both Spigot and Paper.
 
 ## Features
-* Supports the latest versions of Spigot and Paper
-* No need to worry about Spigot jarfiles -- just mount a server data directory and go
-* Always uses the latest BuildTools.jar
-* Checks BitBucket before running build tools.
-  * This allows for effective caching. New commits are always picked up, but cached builds are used if no new commits are available.
-  * This is an effective strategy for the latest Minecraft version but is less useful if you want to use an older Minecraft version since rebuilds will trigger when unneeded.
-* Uses the latest JDK for building and running the Spigot jarfile and the latest stable slim Debian OS image
-* GitHub Actions set up to build and deploy changes daily
+
+* Uses the latest Amazon Coretto for the current Java LTS (currently Java 17)
+* Supports the latest versions of Spigot, Paper, and Vanilla Minecraft
+* No need to worry about server jarfiles -- just mount a server data directory and go
+* Always uses the latest build tools for Spigot and Paper
+* Automatically builds every day
+
+## Images
+
+Pre-built images are located here:
+
+* [Vanilla](https://github.com/shepherdjerred-minecraft/spigot-docker/pkgs/container/vanilla)
+* [Spigot](https://github.com/shepherdjerred-minecraft/spigot-docker/pkgs/container/spigot)
+* [Paper](https://github.com/shepherdjerred-minecraft/spigot-docker/pkgs/container/paper)
+
+## Building
+
+Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly +build` in this directory.
 
 ## Usage
 
-With `docker compose`
+The Docker image has a filesystem as follows:
 
+```text
+/home/minecraft/
+├── server.jar
+└── server/
+    └── plugins/
 ```
+
+The working directory of the image is at `/home/minecraft/server`. Your server files should be mounted at `/home/minecraft/server`. To use the `.jar` provided by the image, you'll have to pass the argument `-jar ../server.jar` to Docker so that Java is invoked correctly. This is a bit confusing, but it allows end-users to easily bind-mount their server files.
+
+Note that the server directory _does not_ have a server jarfile.
+
+## Docker Compose
+
+```yml
 services:
   minecraft:
+    # Swap paper for `spigot` or `minecraft`
+    # Swap `1.20` with `latest` or another version of Minecraft
     image: ghcr.io/shepherdjerred-minecraft/paper:1.20
     tty: true
     stdin_open: true
     volumes:
+      # Change `/path/to/server/files` to the absolute path that your sever fiels are located at
+      # Do NOT change `/home/minecraft/server`
       - /path/to/server/files:/home/minecraft/server:z
     ports:
+      # Change the first 25565 to another port if needed
       - 25565:25565/tcp
       - 25565:25565/udp
-    command: -Xmx1G -jar "../paper.jar"
+    # Change how much memory you're giving Java if needed
+    # Do NOT change `../server.jar`
+    command: -Xmx1G -jar "../server.jar"
     restart: unless-stopped
 ```
 
-With `docker run`
+## `docker run`
 
-```
+```bash
 docker run \
   --rm \
   --name %n \
+  # Change the first 25565 to another port if needed
   -p 25565:25565/tcp \
   -p 25565:25565/udp \
-  --mount type=bind,source=/server/data,target=/home/minecraft/server \
+  # Change `/path/to/server/files` to the absolute path that your sever fiels are located at
+  # Do NOT change `/home/minecraft/server`
+  --mount type=bind,source=/path/to/server/files,target=/home/minecraft/server \
   -it \
-  shepherdjerred/paper:1.20 \
+  # Swap paper for `spigot` or `minecraft`
+  # Swap `1.20` with `latest` or another version of Minecraft
+  ghcr.io/shepherdjerred-minecraft/paper:1.20 \
+  # Change how much memory you're giving Java if needed
   -Xmx1G \
-  -jar "../paper.jar"
+  # Do NOT change `../server.jar`
+  -jar "../server.jar"
 ```

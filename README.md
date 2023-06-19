@@ -1,4 +1,4 @@
-# Spigot Docker
+# Minecraft Docker Images
 
 [![CI/CD](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/earthly.yml/badge.svg)
 ](https://github.com/shepherdjerred-minecraft/spigot-docker/actions/workflows/earthly.yml)
@@ -26,6 +26,13 @@ Pre-built images are located here:
 ## Building
 
 Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly +images` in this directory.
+
+### Adding a New Version
+
+New versions are easy.
+
+1. Add the version to the [Earthfile](https://github.com/shepherdjerred-minecraft/minecraft-docker/blob/5d761d32cc3b333db4a1f4b2be07d1fd48d29341/Earthfile#L78)
+2. Add the URL to the vanilla .jar in [`vanilla.sh`](https://github.com/shepherdjerred-minecraft/minecraft-docker/blob/5d761d32cc3b333db4a1f4b2be07d1fd48d29341/vanilla.sh#L6)
 
 ## Usage
 

@@ -42,7 +42,7 @@ The following tags are available for these images:
 
 ## Building
 
-Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly +ci` in this directory.
+Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly -P +ci` in this directory.
 
 ### Adding a New Minecraft Version
 

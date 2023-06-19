@@ -5,7 +5,7 @@
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/shepherdjerred-minecraft/minecraft-docker?quickstart=1)
 
-A Dockerfile to build and run both Spigot and Paper.
+A Dockerfile to build and run both Spigot, Paper and Vanilla Minecraft.
 
 ## Features
 
@@ -27,7 +27,7 @@ Pre-built images are located here:
 
 Install [Earthly](https://earthly.dev/get-earthly) and then run `earthly +images` in this directory.
 
-### Adding a New Version
+### Adding a New Minecraft Version
 
 New versions are easy.
 

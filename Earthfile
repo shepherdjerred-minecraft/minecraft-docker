@@ -39,7 +39,7 @@ build.vanilla:
 
 image.base:
   ARG --required version
-  RUN yum update -y && yum install -y libwebp /usr/sbin/adduser
+  RUN yum update -y && yum install -y libwebp-tools /usr/sbin/adduser
   RUN adduser -ms /bin/bash minecraft
   USER minecraft
   RUN mkdir /home/minecraft/server
@@ -118,7 +118,7 @@ test.paper:
   END
 
 ci:
-  ARG versions=latest 1.20.1
+  ARG --required versions
   FOR version IN $versions
     BUILD +ci.paper --version=$version
     BUILD +ci.spigot --version=$version

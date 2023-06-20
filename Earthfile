@@ -100,21 +100,21 @@ test.spigot:
   ARG --required version
   FROM earthly/dind:alpine
   WITH DOCKER --load=spigot=(+image.spigot --version=$version)
-    RUN docker run spigot -Xmx512M -jar "../server.jar"
+    RUN docker run -v server:/home/minecraft/server spigot -Xmx512M -jar "../server.jar"
   END
 
 test.vanilla:
   ARG --required version
   FROM earthly/dind:alpine
   WITH DOCKER --load=vanilla=(+image.vanilla --version=$version)
-    RUN docker run vanilla -Xmx512M -jar "../server.jar"
+    RUN docker run -v server:/home/minecraft/server vanilla -Xmx512M -jar "../server.jar"
   END
 
 test.paper:
   ARG --required version
   FROM earthly/dind:alpine
   WITH DOCKER --load=paper=(+image.paper --version=$version)
-    RUN docker run paper -Xmx512M -jar "../server.jar"
+    RUN docker run -v server:/home/minecraft/server paper -Xmx512M -jar "../server.jar"
   END
 
 ci:

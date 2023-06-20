@@ -12,6 +12,15 @@ permissions:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        type:
+          - spigot
+          - paper
+          - vanilla
+        version:
+          - latest
+          - 1.20.1
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,5 +35,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           version: "latest"
-      - name: Build, test, and push images
-        run: earthly --allow-privileged --use-inline-cache --save-inline-cache --push +ci
+      - name: Build, test, and push image
+        run: earthly --allow-privileged --use-inline-cache --save-inline-cache --push +ci.${{ matrix.type }} --version=${{ matrix.version }}

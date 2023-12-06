@@ -20,7 +20,7 @@ jobs:
           - vanilla
         version:
           - latest
-          - 1.20.1
+          - 1.20.2
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

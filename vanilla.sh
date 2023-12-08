@@ -3,13 +3,11 @@
 version="$1"
 
 declare -A versions
-versions["1.20.1"]="https://piston-data.mojang.com/v1/objects/84194a2f286ef7c14ed7ce0090dba59902951553/server.jar"
-versions["1.20.2"]="https://piston-data.mojang.com/v1/objects/5b868151bd02b41319f54c8d4061b8cae84e665c/server.jar"
-versions["1.20.3"]="https://piston-data.mojang.com/v1/objects/4fb536bfd4a83d61cdbaf684b8d311e66e7d4c49/server.jar"
+versions["1.20.4"]="https://piston-data.mojang.com/v1/objects/8dd1a28015f51b1803213892b50b7b4fc76e594d/server.jar"
 
 if [ "$version" = "latest" ]
   then
-    version="1.20.3"
+    version="1.20.4"
 fi
 
 url="${versions[${version}]}"
